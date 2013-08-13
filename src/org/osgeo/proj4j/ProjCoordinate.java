@@ -378,4 +378,8 @@ public class ProjCoordinate
 			return true;
 		}
 	}
+
+	public void clearZ() {
+		z = Double.NaN;
+	}
 }
