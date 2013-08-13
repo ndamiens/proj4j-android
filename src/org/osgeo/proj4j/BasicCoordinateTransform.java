@@ -124,6 +124,9 @@ implements CoordinateTransform
 		}
 
     //TODO: adjust src Prime Meridian if specified
+    // fixes bug where computed Z value sticks around
+    geoCoord.clearZ();
+
     
     if (doDatumTransform) {
       datumTransform(geoCoord);
