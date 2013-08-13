@@ -52,6 +52,7 @@ public class Datum
   public static final int TYPE_GRIDSHIFT = 4;
   
   private static final double[] DEFAULT_TRANSFORM = new double[] { 0.0, 0.0, 0.0 };
+  public static final double SEC_TO_RAD = Math.PI / 180 / 3600;
 
   public static final Datum WGS84 = new Datum("WGS84", 0,0,0, Ellipsoid.WGS84, "WGS84"); 
   public static final Datum GGRS87 = new Datum("GGRS87", -199.87,74.79,246.62, Ellipsoid.GRS80, "Greek_Geodetic_Reference_System_1987");
@@ -99,8 +100,17 @@ public class Datum
     this.code = code;
     this.name = name;
     this.ellipsoid = ellipsoid;
-    if (transform != null)
-      this.transform = transform;
+    if (transform != null) {
+    	if (transform.length == 7) {
+		// Convert rotation values from arc seconds to radians 
+		transform[3] *= SEC_TO_RAD;
+		transform[4] *= SEC_TO_RAD;
+		transform[5] *= SEC_TO_RAD;
+		// Convert scale factor from 'parts per million' to scale 
+		transform[6] = transform[6] / 1000000 + 1;
+	}
+	this.transform = transform;
+    }
   }
   
   public String getCode() { return code; }
